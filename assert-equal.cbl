@@ -15,7 +15,7 @@
            IF ACTUAL = EXPECTED THEN
                ADD 1 TO PASSES
            ELSE
-               DISPLAY 'FAILED: ' TEST-NAME '. Expected '
+               DISPLAY 'FAILED: ' FUNCTION TRIM(TEST-NAME) '. Expected '
                EXPECTED ' but was ' ACTUAL
                ADD 1 TO FAILURES.
 
