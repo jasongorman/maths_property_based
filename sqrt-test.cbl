@@ -2,43 +2,32 @@
        PROGRAM-ID. SQRT-TEST.
        DATA DIVISION.
        WORKING-STORAGE SECTION.
-           01 TEST-DATA.
-               02  NUM-0       PIC 9(4)V9(3) VALUE ZEROES.
-               02  ROOT-0      PIC 9(4)V9(3) VALUE ZEROES.
-               02  NUM-1       PIC 9(4)V9(3) VALUE 1.0.
-               02  ROOT-1      PIC 9(4)V9(3) VALUE 1.0.
-               02  NUM-4       PIC 9(4)V9(3) VALUE 4.0.
-               02  ROOT-2      PIC 9(4)V9(3) VALUE 2.0.
-               02  NUM-9       PIC 9(4)V9(3) VALUE 9.0.
-               02  ROOT-3      PIC 9(4)V9(3) VALUE 3.0.
-               02  NUM-16      PIC 9(4)V9(3) VALUE 16.0.
-               02  ROOT-4      PIC 9(4)V9(3) VALUE 4.0.
-               02  NUM-0-25    PIC 9(4)V9(3) VALUE 0.25.
-               02  ROOT-0-5    PIC 9(4)V9(3) VALUE 0.5.
-           01  TEST-CASES REDEFINES TEST-DATA.
-               02 TEST-CASE OCCURS 6 TIMES INDEXED BY I.
-                   03  NUM     PIC 9(4)V9(3).
-                   03  ROOT    PIC 9(4)V9(3).
-           01  RESULT              PIC 9(4)V9(3).
+           01  NUM                 PIC 9(4)V9(4).
+           01  ROOT                PIC 9(4)V9(4).
+           01  RESULT              PIC 9(4)V9(4).
+           01  MARGIN              PIC 9(4)V9(3) VALUE 0.01.
            01  DISPLAY-NUM         PIC zzz9.99.
            01  TEST-NAME       PIC X(30).
        LINKAGE SECTION.
            COPY 'test-context.cpy'.
        PROCEDURE DIVISION USING TEST-CONTEXT.
        MAIN-PROCEDURE.
-           PERFORM SQRT-TEST VARYING I FROM 1 BY 1 UNTIL I > 6.
+           PERFORM SQRT-TEST VARYING NUM FROM 1 BY 1 UNTIL NUM > 1000.
            GOBACK.
 
        SQRT-TEST.
-           MOVE NUM(I) TO DISPLAY-NUM.
+           MOVE NUM TO DISPLAY-NUM.
            STRING 'SQRT-OF-'
                    FUNCTION TRIM(DISPLAY-NUM)
                    '-TEST'
            INTO TEST-NAME
            END-STRING.
 
-           CALL 'SQRT' USING NUM(I), RESULT.
+           CALL 'SQRT' USING NUM, ROOT.
+
+           COMPUTE RESULT = ROOT * ROOT.
+
            CALL 'ASSERT-EQUAL' USING TEST-CONTEXT, TEST-NAME,
-                                   ROOT(I), RESULT.
+                                   NUM, RESULT, MARGIN.
 
        END PROGRAM SQRT-TEST.

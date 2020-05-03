@@ -2,11 +2,11 @@
        PROGRAM-ID. SQRT.
        DATA DIVISION.
        WORKING-STORAGE SECTION.
-       01  ROOT    PIC 9(4)V9(3).
-       01  PREV    PIC 9(4)V9(3).
+       01  ROOT    PIC 9(4)V9(4).
+       01  PREV    PIC 9(4)V9(4).
        LINKAGE SECTION.
-       01  INPUT-NUMBER    PIC 9(4)V9(3).
-       01  RESULT          PIC 9(4)V9(3).
+       01  INPUT-NUMBER    PIC 9(4)V9(4).
+       01  RESULT          PIC 9(4)V9(4).
        PROCEDURE DIVISION USING INPUT-NUMBER, RESULT.
        MAIN-PROCEDURE.
            COMPUTE ROOT = INPUT-NUMBER / 2.
