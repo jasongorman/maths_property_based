@@ -2,76 +2,34 @@
        PROGRAM-ID. SQRT-TEST.
        DATA DIVISION.
        WORKING-STORAGE SECTION.
-      *    Test data
-           01  INPUT-NUMBER    PIC 9(4)V9(3).
-           01  RESULT          PIC 9(4)V9(3).
-           01  EXPECTED-RESULT   PIC 9(4)V9(3).
-      *    Test stats
+           01 TEST-DATA.
+               02  NUM-0       PIC 9(4)V9(3) VALUE ZEROES.
+               02  ROOT-0      PIC 9(4)V9(3) VALUE ZEROES.
+               02  NUM-1       PIC 9(4)V9(3) VALUE 1.0.
+               02  ROOT-1      PIC 9(4)V9(3) VALUE 1.0.
+               02  NUM-4       PIC 9(4)V9(3) VALUE 4.0.
+               02  ROOT-2      PIC 9(4)V9(3) VALUE 2.0.
+               02  NUM-9       PIC 9(4)V9(3) VALUE 9.0.
+               02  ROOT-3      PIC 9(4)V9(3) VALUE 3.0.
+               02  NUM-16      PIC 9(4)V9(3) VALUE 16.0.
+               02  ROOT-4      PIC 9(4)V9(3) VALUE 4.0.
+               02  NUM-0-25    PIC 9(4)V9(3) VALUE 0.25.
+               02  ROOT-0-5    PIC 9(4)V9(3) VALUE 0.5.
+           01  TEST-CASES REDEFINES TEST-DATA.
+               02 TEST-CASE OCCURS 6 TIMES INDEXED BY I.
+                   03  NUM     PIC 9(4)V9(3).
+                   03  ROOT    PIC 9(4)V9(3).
+           01  RESULT              PIC 9(4)V9(3).
        LINKAGE SECTION.
            COPY 'test-context.cpy'.
        PROCEDURE DIVISION USING TEST-CONTEXT.
        MAIN-PROCEDURE.
-           PERFORM SQRT-OF-ZERO-TEST.
-           PERFORM SQRT-OF-ONE-TEST.
-           PERFORM SQRT-OF-FOUR-TEST.
-           PERFORM SQRT-OF-NINE-TEST.
-           PERFORM SQRT-OF-SIXTEEN-TEST.
-           PERFORM SQRT-OF-POINT-TWO-FIVE-TEST.
-
+           PERFORM SQRT-TEST VARYING I FROM 1 BY 1 UNTIL I > 6.
            GOBACK.
 
-       SQRT-OF-ZERO-TEST.
-           MOVE 0.0 TO INPUT-NUMBER.
-           MOVE 0.0 TO EXPECTED-RESULT.
-
-           CALL 'SQRT' USING INPUT-NUMBER, RESULT.
-
+       SQRT-TEST.
+           CALL 'SQRT' USING NUM(I), RESULT.
            CALL 'ASSERT-EQUAL' USING TEST-CONTEXT, 'SQRT-OF-ZERO-TEST',
-                                   EXPECTED-RESULT, RESULT.
-
-       SQRT-OF-ONE-TEST.
-           MOVE 1.0 TO INPUT-NUMBER.
-           MOVE 1.0 TO EXPECTED-RESULT.
-
-           CALL 'SQRT' USING INPUT-NUMBER, RESULT.
-
-           CALL 'ASSERT-EQUAL' USING TEST-CONTEXT, 'SQRT-OF-ONE-TEST',
-                                   EXPECTED-RESULT, RESULT.
-
-       SQRT-OF-FOUR-TEST.
-           MOVE 4.0 TO INPUT-NUMBER.
-           MOVE 2.0 TO EXPECTED-RESULT.
-
-           CALL 'SQRT' USING INPUT-NUMBER, RESULT.
-
-           CALL 'ASSERT-EQUAL' USING TEST-CONTEXT, 'SQRT-OF-FOUR-TEST',
-                                   EXPECTED-RESULT, RESULT.
-
-       SQRT-OF-NINE-TEST.
-           MOVE 9.0 TO INPUT-NUMBER.
-           MOVE 3.0 TO EXPECTED-RESULT.
-
-           CALL 'SQRT' USING INPUT-NUMBER, RESULT.
-
-           CALL 'ASSERT-EQUAL' USING TEST-CONTEXT, 'SQRT-OF-NINE-TEST',
-                                   EXPECTED-RESULT, RESULT.
-
-       SQRT-OF-SIXTEEN-TEST.
-           MOVE 16.0 TO INPUT-NUMBER.
-           MOVE 4.0 TO EXPECTED-RESULT.
-
-           CALL 'SQRT' USING INPUT-NUMBER, RESULT.
-
-           CALL 'ASSERT-EQUAL' USING TEST-CONTEXT,
-               'SQRT-OF-SIXTEEN-TEST', EXPECTED-RESULT, RESULT.
-
-       SQRT-OF-POINT-TWO-FIVE-TEST.
-           MOVE 0.25 TO INPUT-NUMBER.
-           MOVE 0.5 TO EXPECTED-RESULT.
-
-           CALL 'SQRT' USING INPUT-NUMBER, RESULT.
-
-           CALL 'ASSERT-EQUAL' USING TEST-CONTEXT,
-               'SQRT-OF-POINT-TWO-FIVE-TEST', EXPECTED-RESULT, RESULT.
+                                   ROOT(I), RESULT.
 
        END PROGRAM SQRT-TEST.
